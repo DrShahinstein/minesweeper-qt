@@ -133,7 +133,6 @@ void GameWindow::set_mines() {
     int row = possible_positions[i].first;
     int col = possible_positions[i].second;
     mine_map[row][col] = true;
-    grid_buttons[row][col]->set_icon(STRAIGHTBOMB_IMG_PATH);
   }
 
   // reveal opening cells
