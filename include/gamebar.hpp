@@ -13,11 +13,11 @@ public:
   explicit GameBar(int mines, QWidget *parent = nullptr);
 
   void update_timer(int seconds);
-  void update_mine_count(int mines);
+  void update_flag_count(int flags);
 
 private:
   QLCDNumber *timer_display;
-  QLCDNumber *mine_count_display;
+  QLCDNumber *flag_count_display;
   QPushButton *reset_button;
 
 signals:
