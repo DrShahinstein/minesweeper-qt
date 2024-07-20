@@ -163,7 +163,8 @@ void GameWindow::reveal_cell(int row, int col) {
         grid_buttons[i][j]->disable();
         if (mine_map[i][j] == true && !grid_buttons[i][j]->is_flagged()) {
           grid_buttons[i][j]->set_icon(STRAIGHTBOMB_IMG_PATH);
-        } else if (mine_map[i][j] == true && grid_buttons[i][j]->is_flagged()) {
+        } else if (grid_buttons[i][j]->is_flagged() && !mine_map[i][j] &&
+                   !opening_cells.contains(qMakePair(i, j))) {
           grid_buttons[i][j]->set_icon(MISPLACED_BOMB_IMG_PATH);
         }
       }
