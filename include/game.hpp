@@ -22,6 +22,7 @@ private:
   int rows;
   int cols;
   int mines;
+  int remaining_flags;
   bool is_first_reveal;
   GameBar *gamebar;
 
@@ -41,6 +42,7 @@ private:
   void reveal_cell(int row, int col);
   void put_flag(int row, int col);
   int count_adjacent_mines(int row, int col);
+  bool check_win();
 
 private slots:
   void update_timer();
