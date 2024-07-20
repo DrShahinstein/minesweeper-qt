@@ -2,16 +2,16 @@
 
 GameBar::GameBar(int mines, QWidget *parent) : QWidget(parent) {
   timer_display = new QLCDNumber(this);
-  mine_count_display = new QLCDNumber(this);
+  flag_count_display = new QLCDNumber(this);
   reset_button = new QPushButton(this);
 
   timer_display->setDigitCount(3);
   timer_display->setMaximumHeight(55);
-  mine_count_display->setDigitCount(3);
-  mine_count_display->setMaximumHeight(55);
+  flag_count_display->setDigitCount(3);
+  flag_count_display->setMaximumHeight(55);
 
   update_timer(0);
-  update_mine_count(mines);
+  update_flag_count(mines);
 
   reset_button->setText("Quit");
   reset_button->setFixedSize(50, 50);
@@ -22,7 +22,7 @@ GameBar::GameBar(int mines, QWidget *parent) : QWidget(parent) {
   QHBoxLayout *layout = new QHBoxLayout(this);
   layout->addWidget(timer_display);
   layout->addWidget(reset_button);
-  layout->addWidget(mine_count_display);
+  layout->addWidget(flag_count_display);
 
   setLayout(layout);
 }
@@ -31,8 +31,8 @@ void GameBar::update_timer(int seconds) {
   timer_display->display(seconds); 
 }
 
-void GameBar::update_mine_count(int mines) {
-  mine_count_display->display(mines);
+void GameBar::update_flag_count(int flags) {
+  flag_count_display->display(flags);
 }
 
 void GameBar::handle_reset_button() {
