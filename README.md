@@ -14,6 +14,8 @@ See [releases](https://github.com/DrShahinstein/minesweeper-qt/releases/tag/Stab
 $ mkdir build
 $ cd build/
 $ cmake ..
+$ make
+$ ./minesweeper
 
 # or
 
