@@ -4,6 +4,7 @@ Minesweeper game written in C++ using Qt6.
 
 ## Preview
 
+https://github.com/user-attachments/assets/66a7b4fd-64ed-4994-a101-addfaca5b0e4
 
 ## Build
 
