@@ -2,6 +2,7 @@
 #include "cell.hpp"
 #include "gamebar.hpp"
 #include "utils.hpp"
+#include <QMessageBox>
 #include <QQueue>
 #include <QSet>
 #include <QTimer>
@@ -11,6 +12,7 @@
 GameWindow::GameWindow(int rows, int cols, int mines)
     : rows(rows), cols(cols), mines(mines) {
 
+  remaining_flags = mines;
   elapsed_time = 0;
   is_first_reveal = true;
   main_layout = new QVBoxLayout(this);
@@ -131,6 +133,7 @@ void GameWindow::set_mines() {
     int row = possible_positions[i].first;
     int col = possible_positions[i].second;
     mine_map[row][col] = true;
+    grid_buttons[row][col]->set_icon(STRAIGHTBOMB_IMG_PATH);
   }
 
   // reveal opening cells
@@ -205,6 +208,18 @@ void GameWindow::reveal_cell(int row, int col) {
 
     grid_buttons[row][col]->setText(QString::number(adjacent_mines));
     grid_buttons[row][col]->disable();
+
+    if (check_win()) {
+      timer->stop();
+      QMessageBox::information(this, "Victory!", "Congrats, you won!");
+
+      for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+          if (grid_buttons[i][j]->is_flagged())
+            grid_buttons[i][j]->disable();
+        }
+      }
+    }
   }
 }
 
@@ -213,11 +228,17 @@ void GameWindow::put_flag(int row, int col) {
     return;
 
   if (grid_buttons[row][col]->is_flagged()) {
+    remaining_flags++;
+    gamebar->update_flag_count(remaining_flags);
+
     grid_buttons[row][col]->remove_icon();
     grid_buttons[row][col]->unflag();
     connect(grid_buttons[row][col], &CellBtn::leftClicked, this,
             [this, row, col]() { reveal_cell(row, col); });
-  } else {
+  } else if (remaining_flags > 0) {
+    remaining_flags--;
+    gamebar->update_flag_count(remaining_flags);
+
     grid_buttons[row][col]->set_icon(FLAG_IMG_PATH);
     grid_buttons[row][col]->flag();
     disconnect(grid_buttons[row][col], &CellBtn::leftClicked, nullptr, nullptr);
@@ -240,6 +261,23 @@ int GameWindow::count_adjacent_mines(int row, int col) {
   }
 
   return count;
+}
+
+bool GameWindow::check_win() {
+  bool all_flags_used = (remaining_flags == 0);
+
+  int revealed_count = 0;
+  for (const auto &row : grid_buttons) {
+    for (CellBtn *btn : row) {
+      if (!btn->text().isEmpty() && !btn->is_flagged()) {
+        revealed_count++;
+      }
+    }
+  }
+
+  bool all_revealed = (revealed_count == rows * cols - mines);
+
+  return all_flags_used && all_revealed;
 }
 
 /*
