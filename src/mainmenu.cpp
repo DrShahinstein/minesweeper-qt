@@ -8,12 +8,7 @@ void MainMenu::setup_layout() {
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *grid_layout = new QGridLayout();
 
-  struct button_info {
-    QString size_label;
-    QString mine_label;
-  };
-
-  QVector<button_info> button_infos = {
+  QVector<ButtonInfo> button_infos = {
       {"16x16", "40 Mines"},  {"16x16", "50 Mines"},  {"16x16", "60 Mines"},
       {"20x20", "75 Mines"},  {"20x20", "90 Mines"},  {"20x20", "120 Mines"},
       {"24x24", "140 Mines"}, {"24x24", "160 Mines"}, {"24x24", "180 Mines"}};
