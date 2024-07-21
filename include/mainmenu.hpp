@@ -37,6 +37,11 @@ private:
 
   GameVariants variant;
   GameWindow *game_window;
+
+  struct ButtonInfo {
+    QString size_label;
+    QString mine_label;
+  };
 };
 
 #endif // MAINMENU_HPP
