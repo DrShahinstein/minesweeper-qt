@@ -261,7 +261,7 @@ bool GameWindow::check_win() {
   int revealed_count = 0;
   for (const auto &row : grid_buttons) {
     for (CellBtn *btn : row) {
-      if (!btn->text().isEmpty() && !btn->is_flagged()) {
+      if (!btn->text().isEmpty()) {
         revealed_count++;
       }
     }
