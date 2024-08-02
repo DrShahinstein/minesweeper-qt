@@ -43,6 +43,7 @@ private:
   void put_flag(int row, int col);
   int count_adjacent_mines(int row, int col);
   bool check_win();
+  void handle_win();
 
 private slots:
   void update_timer();
