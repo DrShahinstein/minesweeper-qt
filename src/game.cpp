@@ -209,17 +209,7 @@ void GameWindow::reveal_cell(int row, int col) {
     grid_buttons[row][col]->setText(QString::number(adjacent_mines));
     grid_buttons[row][col]->disable();
 
-    if (check_win()) {
-      timer->stop();
-      QMessageBox::information(this, "Victory!", "Congrats, you won!");
-
-      for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-          if (grid_buttons[i][j]->is_flagged())
-            grid_buttons[i][j]->disable();
-        }
-      }
-    }
+    if (check_win()) handle_win();
   }
 }
 
@@ -242,6 +232,8 @@ void GameWindow::put_flag(int row, int col) {
     grid_buttons[row][col]->set_icon(FLAG_IMG_PATH);
     grid_buttons[row][col]->flag();
     disconnect(grid_buttons[row][col], &CellBtn::leftClicked, nullptr, nullptr);
+
+    if (check_win()) handle_win();
   }
 }
 
@@ -279,6 +271,19 @@ bool GameWindow::check_win() {
 
   return all_flags_used && all_revealed;
 }
+
+void GameWindow::handle_win() {
+  timer->stop();
+  QMessageBox::information(this, "Victory!", "Congrats, you won!");
+
+  for (int i = 0; i < rows; ++i) {
+    for (int j = 0; j < cols; ++j) {
+      if (grid_buttons[i][j]->is_flagged())
+        grid_buttons[i][j]->disable();
+    }
+  }
+}
+
 
 /*
 
